@@ -158,6 +158,47 @@ padding: 7px 10px;
 line-height: 1.5;
 }
 
+/* ── Important Notice ── */
+.important-box {
+margin: 28px 20px 0;
+background: #fffbeb;
+border: 2px solid #f59e0b;
+border-radius: 16px;
+padding: 20px 22px;
+box-shadow: 0 4px 20px rgba(245,158,11,0.15);
+}
+.important-box .imp-title {
+font-size: 14px;
+font-weight: 700;
+color: #b45309;
+letter-spacing: 2px;
+margin-bottom: 14px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.important-item {
+display: flex;
+gap: 12px;
+align-items: flex-start;
+margin-bottom: 10px;
+padding: 11px 14px;
+background: #fff;
+border-radius: 10px;
+border-left: 3px solid #f59e0b;
+font-size: 14px;
+line-height: 1.55;
+color: var(--dark);
+}
+.important-item:last-child { margin-bottom: 0; }
+.imp-icon {
+font-size: 16px;
+flex-shrink: 0;
+margin-top: 1px;
+}
+.imp-text { flex: 1; }
+.imp-text strong { color: #b45309; }
+
 /* ── Warning ── */
 .warning-card {
 background: #fff5f0;
@@ -258,17 +299,42 @@ to { opacity: 1; transform: translateY(0); }
 <div class="info-card">
 <div class="info-item">
 <label>예약자</label>
-<div class="val">김나경 님</div>
+<div class="val">권봄 님</div>
 </div>
 <div class="divider-v"></div>
 <div class="info-item">
 <label>예약 일자</label>
-<div class="val">2026. 06. 04 ~ 06. 07 (3박)</div>
+<div class="val">2026. 06. 11 ~ 06. 15 (4박)</div>
 </div>
 <div class="divider-v"></div>
 <div class="info-item">
 <label>호실</label>
 <div class="val big">크레오 202호</div>
+</div>
+</div>
+
+<!-- 중요 안내 -->
+<div class="important-box">
+<div class="imp-title">⭐ 중요 안내</div>
+
+<div class="important-item">
+<div class="imp-icon">🗑️</div>
+<div class="imp-text"><strong>퇴실 전 쓰레기 분리배출</strong><br>재활용·음식물 쓰레기 → 1층 출입구 좌측 외부 휴지통</div>
+</div>
+
+<div class="important-item">
+<div class="imp-icon">🚪</div>
+<div class="imp-text"><strong>라운지 폴딩도어 개폐 금지</strong><br>반드시 출입문만 이용해 주세요</div>
+</div>
+
+<div class="important-item">
+<div class="imp-icon">🕙</div>
+<div class="imp-text"><strong>라운지 이용시간: 밤 10시까지</strong><br>사용 후 전체 소등 필수</div>
+</div>
+
+<div class="important-item">
+<div class="imp-icon">📶</div>
+<div class="imp-text"><strong>라운지 Wi-Fi</strong><br>SSID: IDINO LOUNGE &nbsp;/&nbsp; 비밀번호: <strong>88888888</strong></div>
 </div>
 </div>
 
