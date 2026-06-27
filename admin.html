@@ -6,75 +6,46 @@
 <title>아이디노 제주 · 예약 관리</title>
 <style>
 :root {
-  --teal: #3a8a7a;
-  --teal2: #2d6e61;
-  --teal-lt: #e8f5f2;
-  --sand: #f7f4ef;
-  --dark: #2c2c2c;
-  --mid: #666;
-  --red: #e53e3e;
-  --green: #38a169;
+  --teal: #3a8a7a; --teal2: #2d6e61; --teal-lt: #e8f5f2;
+  --sand: #f7f4ef; --dark: #2c2c2c; --mid: #666; --red: #e53e3e; --green: #38a169;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-  background: var(--sand);
-  color: var(--dark);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-.card {
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.10);
-  padding: 36px 32px 32px;
-  width: 100%;
-  max-width: 420px;
-}
-.logo { text-align: center; margin-bottom: 28px; }
+body { font-family: 'Apple SD Gothic Neo','Noto Sans KR',sans-serif; background: var(--sand); color: var(--dark); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.card { background: #fff; border-radius: 20px; box-shadow: 0 8px 40px rgba(0,0,0,0.10); padding: 32px 28px 28px; width: 100%; max-width: 440px; }
+.logo { text-align: center; margin-bottom: 20px; }
 .logo-title { font-size: 20px; font-weight: 700; color: var(--teal2); letter-spacing: 2px; }
 .logo-sub { font-size: 12px; color: var(--mid); letter-spacing: 3px; margin-top: 4px; }
-.divider { border: none; border-top: 2px solid var(--teal-lt); margin: 0 0 28px; }
+.divider { border: none; border-top: 2px solid var(--teal-lt); margin: 0 0 20px; }
+.team-tabs { display: flex; gap: 6px; margin-bottom: 20px; }
+.team-tab { flex: 1; padding: 9px 4px; border: 1.5px solid #e2e8f0; border-radius: 10px; background: #fff; font-size: 12px; font-weight: 700; color: #a0aec0; cursor: pointer; transition: all 0.2s; text-align: center; }
+.team-tab.active { background: var(--teal2); color: #fff; border-color: var(--teal2); }
+.team-tab.occupied { border-color: var(--teal); color: var(--teal2); }
+.team-tab.occupied.active { background: var(--teal2); color: #fff; }
+.team-tab .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-right: 3px; vertical-align: middle; }
+.team-tab.active .dot { background: rgba(255,255,255,0.8); }
+.guest-link-bar { display: flex; align-items: center; gap: 8px; background: var(--teal-lt); border: 1px solid #b2d8d0; border-radius: 10px; padding: 10px 12px; margin-bottom: 18px; }
+.guest-link-bar .link-label { font-size: 11px; color: var(--mid); white-space: nowrap; }
+.guest-link-bar a { color: var(--teal2); font-size: 12px; font-weight: 700; text-decoration: none; flex: 1; word-break: break-all; }
+.guest-link-bar a:hover { text-decoration: underline; }
+.copy-btn { background: var(--teal2); color: #fff; border: none; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.copy-btn:hover { background: var(--teal); }
 #setup-section { display: none; }
-.setup-notice {
-  background: #fffbeb; border: 1.5px solid #f59e0b; border-radius: 10px;
-  padding: 14px 16px; font-size: 13px; line-height: 1.6; color: #92400e; margin-bottom: 16px;
-}
+.setup-notice { background: #fffbeb; border: 1.5px solid #f59e0b; border-radius: 10px; padding: 14px 16px; font-size: 13px; line-height: 1.7; color: #92400e; margin-bottom: 16px; }
 .setup-notice strong { display: block; margin-bottom: 4px; font-size: 14px; }
-.field { margin-bottom: 18px; }
-.field label {
-  display: block; font-size: 12px; font-weight: 700; color: var(--teal);
-  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
-}
-.field input {
-  width: 100%; padding: 12px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px;
-  font-size: 15px; color: var(--dark); outline: none; transition: border-color 0.2s; background: #fff;
-}
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 11px; font-weight: 700; color: var(--teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 7px; }
+.field input { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 15px; color: var(--dark); outline: none; transition: border-color 0.2s; background: #fff; }
 .field input:focus { border-color: var(--teal); }
-.date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.nights-badge { text-align: center; margin-top: 8px; font-size: 13px; color: var(--teal); font-weight: 600; min-height: 20px; }
-.btn {
-  display: block; width: 100%; padding: 15px; background: var(--teal2); color: #fff;
-  border: none; border-radius: 12px; font-size: 16px; font-weight: 700; letter-spacing: 1px;
-  cursor: pointer; margin-top: 8px; transition: background 0.2s, transform 0.1s;
-}
-.btn:hover { background: var(--teal); }
-.btn:active { transform: scale(0.98); }
-.btn:disabled { background: #a0aec0; cursor: not-allowed; }
-#status {
-  margin-top: 16px; padding: 12px 16px; border-radius: 10px;
-  font-size: 14px; font-weight: 600; text-align: center; display: none;
-}
+.date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.nights-badge { text-align: center; margin-top: 6px; font-size: 13px; color: var(--teal); font-weight: 700; min-height: 20px; }
+.btn { display: block; width: 100%; padding: 14px; background: var(--teal2); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-top: 6px; transition: background 0.2s, transform 0.1s; }
+.btn:hover { background: var(--teal); } .btn:active { transform: scale(0.98); } .btn:disabled { background: #a0aec0; cursor: not-allowed; }
+#status { margin-top: 14px; padding: 11px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; display: none; }
 #status.success { background: #f0fff4; color: var(--green); border: 1.5px solid #9ae6b4; display: block; }
-#status.error { background: #fff5f5; color: var(--red); border: 1.5px solid #feb2b2; display: block; }
+#status.error   { background: #fff5f5; color: var(--red);   border: 1.5px solid #feb2b2; display: block; }
 #status.loading { background: var(--teal-lt); color: var(--teal2); border: 1.5px solid #b2d8d0; display: block; }
-.preview-link { display: block; text-align: center; margin-top: 14px; font-size: 13px; color: var(--teal); text-decoration: none; font-weight: 600; }
-.preview-link:hover { text-decoration: underline; }
-.pat-toggle { text-align: right; margin-top: 20px; }
-.pat-toggle button { background: none; border: none; font-size: 12px; color: #a0aec0; cursor: pointer; text-decoration: underline; }
+.bottom-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; }
+.bottom-bar button { background: none; border: none; font-size: 12px; color: #a0aec0; cursor: pointer; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -88,7 +59,7 @@ body {
     <div class="setup-notice">
       <strong>⚙️ 처음 한 번만 설정하세요</strong>
       GitHub Personal Access Token을 입력하면 이후엔 바로 수정할 수 있습니다.<br><br>
-      발급: GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → contents 권한 Write 허용
+      발급: GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Contents 권한 Read &amp; Write
     </div>
     <div class="field">
       <label>GitHub Token</label>
@@ -97,6 +68,17 @@ body {
     <button class="btn" onclick="savePat()">토큰 저장하기</button>
   </div>
   <div id="form-section">
+    <div class="team-tabs" id="team-tabs">
+      <button class="team-tab active" onclick="switchTeam(0)" id="tab-0">팀 1</button>
+      <button class="team-tab" onclick="switchTeam(1)" id="tab-1">팀 2</button>
+      <button class="team-tab" onclick="switchTeam(2)" id="tab-2">팀 3</button>
+      <button class="team-tab" onclick="switchTeam(3)" id="tab-3">팀 4</button>
+    </div>
+    <div class="guest-link-bar">
+      <span class="link-label">손님 링크</span>
+      <a id="guest-link" href="#" target="_blank">-</a>
+      <button class="copy-btn" onclick="copyLink()">복사</button>
+    </div>
     <div class="field">
       <label>예약자 이름</label>
       <input type="text" id="name" placeholder="홍길동">
@@ -110,85 +92,99 @@ body {
       <div class="nights-badge" id="nights-display"></div>
     </div>
     <div class="field">
-      <label>호실</label>
-      <input type="text" id="room" placeholder="크레오 203호">
+      <label>호실 (여러 개면 쉼표로 구분)</label>
+      <input type="text" id="room" placeholder="크레오 203호, 콤마 102호">
     </div>
     <button class="btn" id="submit-btn" onclick="updateReservation()">✓ 수정하기</button>
     <div id="status"></div>
-    <a href="https://partyok-create.github.io/idino-guide/" target="_blank" class="preview-link">→ 안내 페이지 바로가기</a>
-    <div class="pat-toggle"><button onclick="showSetup()">토큰 재설정</button></div>
+    <div class="bottom-bar">
+      <button onclick="showSetup()">토큰 재설정</button>
+    </div>
   </div>
 </div>
 <script>
-const REPO='partyok-create/idino-guide', FILE='index.html', API='https://api.github.com';
-window.onload=function(){
-  const pat=localStorage.getItem('idino_pat');
-  if(!pat){showSetup();}else{showForm();loadCurrentValues(pat);}
-};
+const REPO='partyok-create/idino-guide',API='https://api.github.com';
+const FILES=['index.html','guest2.html','guest3.html','guest4.html'];
+const LINKS=['https://partyok-create.github.io/idino-guide/','https://partyok-create.github.io/idino-guide/guest2.html','https://partyok-create.github.io/idino-guide/guest3.html','https://partyok-create.github.io/idino-guide/guest4.html'];
+let currentTeam=0;
+const teamState=[{},{},{},{}];
+
+function decodeUTF8(b64){const bin=atob(b64.replace(/\n/g,''));const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder('utf-8').decode(bytes);}
+function encodeUTF8(str){const bytes=new TextEncoder().encode(str);let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return btoa(bin);}
+
+window.onload=function(){const pat=localStorage.getItem('idino_pat');if(!pat){showSetup();return;}showForm();switchTeam(0);};
 function showSetup(){document.getElementById('setup-section').style.display='block';document.getElementById('form-section').style.display='none';}
 function showForm(){document.getElementById('setup-section').style.display='none';document.getElementById('form-section').style.display='block';}
-function savePat(){
-  const pat=document.getElementById('pat-input').value.trim();
-  if(!pat){alert('토큰을 입력해 주세요.');return;}
-  localStorage.setItem('idino_pat',pat);showForm();loadCurrentValues(pat);
+function savePat(){const pat=document.getElementById('pat-input').value.trim();if(!pat){alert('토큰을 입력해 주세요.');return;}localStorage.setItem('idino_pat',pat);showForm();switchTeam(0);}
+
+async function switchTeam(idx){
+  currentTeam=idx;
+  for(let i=0;i<4;i++){const t=document.getElementById('tab-'+i);t.classList.remove('active');if(i===idx)t.classList.add('active');}
+  const lnk=document.getElementById('guest-link');lnk.href=LINKS[idx];lnk.textContent=LINKS[idx];
+  clearFields();clearStatus();
+  await loadCurrentValues(idx);
 }
-async function loadCurrentValues(pat){
+function clearFields(){['name','checkin','checkout','room'].forEach(id=>document.getElementById(id).value='');document.getElementById('nights-display').textContent='';}
+function clearStatus(){const el=document.getElementById('status');el.className='';el.style.display='none';}
+
+async function loadCurrentValues(teamIdx){
+  const pat=localStorage.getItem('idino_pat');
   try{
-    const res=await fetch(API+'/repos/'+REPO+'/contents/'+FILE,{headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json'}});
-    if(!res.ok){if(res.status===401)showSetup();return;}
+    const res=await fetch(API+'/repos/'+REPO+'/contents/'+FILES[teamIdx],{headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json'}});
+    if(res.status===401){showSetup();return;}
+    if(!res.ok){teamState[teamIdx].exists=false;return;}
     const data=await res.json();
-    const html=atob(data.content.replace(/\n/g,''));
+    teamState[teamIdx].sha=data.sha;teamState[teamIdx].exists=true;
+    const html=decodeUTF8(data.content);
     const nm=html.match(/<div class="val">(.+?) 님<\/div>/);
     if(nm)document.getElementById('name').value=nm[1];
     const dm=html.match(/(\d{4})\. (\d{2})\. (\d{2}) ~ (\d{2})\. (\d{2})/);
     if(dm){const[,y,m1,d1,m2,d2]=dm;document.getElementById('checkin').value=y+'-'+m1+'-'+d1;document.getElementById('checkout').value=y+'-'+m2+'-'+d2;calcNights();}
-    const rm=html.match(/<div class="val big">(.+?)<\/div>/);
+    const rm=html.match(/<div class="val big">([^<]+)<\/div>/);
     if(rm)document.getElementById('room').value=rm[1];
+    if(nm&&nm[1]){const tab=document.getElementById('tab-'+teamIdx);tab.innerHTML='<span class="dot"></span>팀 '+(teamIdx+1);tab.classList.add('occupied');}
   }catch(e){}
 }
-function calcNights(){
-  const ci=document.getElementById('checkin').value,co=document.getElementById('checkout').value,el=document.getElementById('nights-display');
-  if(!ci||!co){el.textContent='';return;}
-  const diff=(new Date(co)-new Date(ci))/86400000;
-  el.textContent=diff<=0?'⚠ 체크아웃 날짜를 확인해 주세요':diff+'박';
-}
-function formatDate(ci,co){
-  const[y,m1,d1]=ci.split('-'),[,m2,d2]=co.split('-');
-  const nights=(new Date(co)-new Date(ci))/86400000;
-  return y+'. '+m1+'. '+d1+' ~ '+m2+'. '+d2+' ('+nights+'박)';
-}
+
+function calcNights(){const ci=document.getElementById('checkin').value,co=document.getElementById('checkout').value,el=document.getElementById('nights-display');if(!ci||!co){el.textContent='';return;}const d=(new Date(co)-new Date(ci))/86400000;el.textContent=d<=0?'⚠ 날짜 확인':d+'박';}
+function formatDate(ci,co){const[y,m1,d1]=ci.split('-'),[,m2,d2]=co.split('-'),n=(new Date(co)-new Date(ci))/86400000;return y+'. '+m1+'. '+d1+' ~ '+m2+'. '+d2+' ('+n+'박)';}
+
 async function updateReservation(){
   const pat=localStorage.getItem('idino_pat');
   const name=document.getElementById('name').value.trim();
-  const checkin=document.getElementById('checkin').value,checkout=document.getElementById('checkout').value;
+  const ci=document.getElementById('checkin').value,co=document.getElementById('checkout').value;
   const room=document.getElementById('room').value.trim();
-  if(!name||!checkin||!checkout||!room){showStatus('모든 항목을 입력해 주세요.','error');return;}
-  const nights=(new Date(checkout)-new Date(checkin))/86400000;
-  if(nights<=0){showStatus('체크아웃 날짜를 확인해 주세요.','error');return;}
-  showStatus('수정 중...','loading');
-  document.getElementById('submit-btn').disabled=true;
+  if(!name||!ci||!co||!room){showStatus('모든 항목을 입력해 주세요.','error');return;}
+  if((new Date(co)-new Date(ci))/86400000<=0){showStatus('체크아웃 날짜를 확인해 주세요.','error');return;}
+  showStatus('수정 중...','loading');document.getElementById('submit-btn').disabled=true;
   try{
-    const getRes=await fetch(API+'/repos/'+REPO+'/contents/'+FILE,{headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json'}});
-    if(!getRes.ok)throw new Error('파일을 가져오지 못했습니다. 토큰을 확인해 주세요.');
-    const fileData=await getRes.json();
-    const sha=fileData.sha;
-    let html=atob(fileData.content.replace(/\n/g,''));
-    const newDate=formatDate(checkin,checkout);
+    const targetFile=FILES[currentTeam],newDate=formatDate(ci,co);
+    let html,sha;
+    if(currentTeam===0){
+      const r=await fetch(API+'/repos/'+REPO+'/contents/index.html',{headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json'}});
+      if(!r.ok)throw new Error('index.html을 가져오지 못했습니다.');
+      const d=await r.json();html=decodeUTF8(d.content);sha=d.sha;
+    }else{
+      const er=await fetch(API+'/repos/'+REPO+'/contents/'+targetFile,{headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json'}});
+      if(er.ok){const d=await er.json();html=decodeUTF8(d.content);sha=d.sha;}
+      else{const tr=await fetch(API+'/repos/'+REPO+'/contents/index.html',{headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json'}});if(!tr.ok)throw new Error('템플릿 로드 실패');const d=await tr.json();html=decodeUTF8(d.content);sha=undefined;}
+    }
     html=html.replace(/(<div class="val">)[^<]+? 님(<\/div>)/,'$1'+name+' 님$2');
     html=html.replace(/(<div class="val">)\d{4}\. \d{2}\. \d{2} ~ \d{2}\. \d{2} \(\d+박\)(<\/div>)/,'$1'+newDate+'$2');
     html=html.replace(/(<div class="val big">)[^<]+(<\/div>)/,'$1'+room+'$2');
-    const newContent=btoa(unescape(encodeURIComponent(html)));
-    const putRes=await fetch(API+'/repos/'+REPO+'/contents/'+FILE,{
-      method:'PUT',
-      headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
-      body:JSON.stringify({message:'예약 수정: '+name+' 님 '+newDate+' '+room,content:newContent,sha:sha})
-    });
-    if(!putRes.ok){const err=await putRes.json();throw new Error(err.message||'업데이트 실패');}
-    showStatus('✅ 수정 완료! 페이지에 반영되었습니다.','success');
+    const body={message:'예약: 팀'+(currentTeam+1)+' '+name+' '+newDate+' '+room,content:encodeUTF8(html)};
+    if(sha)body.sha=sha;
+    const pr=await fetch(API+'/repos/'+REPO+'/contents/'+targetFile,{method:'PUT',headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!pr.ok){const e=await pr.json();throw new Error(e.message||'업데이트 실패');}
+    const res=await pr.json();teamState[currentTeam].sha=res.content.sha;teamState[currentTeam].exists=true;
+    const tab=document.getElementById('tab-'+currentTeam);tab.innerHTML='<span class="dot"></span>팀 '+(currentTeam+1);tab.classList.add('occupied');
+    showStatus('✅ 수정 완료! 1~2분 후 반영됩니다.','success');
   }catch(e){showStatus('❌ '+e.message,'error');}
   finally{document.getElementById('submit-btn').disabled=false;}
 }
-function showStatus(msg,type){const el=document.getElementById('status');el.textContent=msg;el.className=type;}
+
+function copyLink(){const url=LINKS[currentTeam];navigator.clipboard.writeText(url).then(()=>{const b=document.querySelector('.copy-btn');b.textContent='완료!';setTimeout(()=>b.textContent='복사',1500);});}
+function showStatus(m,t){const el=document.getElementById('status');el.textContent=m;el.className=t;el.style.display='block';}
 </script>
 </body>
-  </html>
+</html>
