@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>아이디노 제주 · 예약 관리</title>
+<style>
+:root {
+  --teal: #3a8a7a;
+  --teal2: #2d6e61;
+  --teal-lt: #e8f5f2;
+  --sand: #f7f4ef;
+  --dark: #2c2c2c;
+  --mid: #666;
+  --red: #e53e3e;
+  --green: #38a169;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  background: var(--sand);
+  color: var(--dark);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+  padding: 36px 32px 32px;
+  width: 100%;
+  max-width: 420px;
+}
+.logo { text-align: center; margin-bottom: 28px; }
+.logo-title { font-size: 20px; font-weight: 700; color: var(--teal2); letter-spacing: 2px; }
+.logo-sub { font-size: 12px; color: var(--mid); letter-spacing: 3px; margin-top: 4px; }
+.divider { border: none; border-top: 2px solid var(--teal-lt); margin: 0 0 28px; }
+#setup-section { display: none; }
+.setup-notice {
+  background: #fffbeb; border: 1.5px solid #f59e0b; border-radius: 10px;
+  padding: 14px 16px; font-size: 13px; line-height: 1.6; color: #92400e; margin-bottom: 16px;
+}
+.setup-notice strong { display: block; margin-bottom: 4px; font-size: 14px; }
+.field { margin-bottom: 18px; }
+.field label {
+  display: block; font-size: 12px; font-weight: 700; color: var(--teal);
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
+}
+.field input {
+  width: 100%; padding: 12px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+  font-size: 15px; color: var(--dark); outline: none; transition: border-color 0.2s; background: #fff;
+}
+.field input:focus { border-color: var(--teal); }
+.date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.nights-badge { text-align: center; margin-top: 8px; font-size: 13px; color: var(--teal); font-weight: 600; min-height: 20px; }
+.btn {
+  display: block; width: 100%; padding: 15px; background: var(--teal2); color: #fff;
+  border: none; border-radius: 12px; font-size: 16px; font-weight: 700; letter-spacing: 1px;
+  cursor: pointer; margin-top: 8px; transition: background 0.2s, transform 0.1s;
+}
+.btn:hover { background: var(--teal); }
+.btn:active { transform: scale(0.98); }
+.btn:disabled { background: #a0aec0; cursor: not-allowed; }
+#status {
+  margin-top: 16px; padding: 12px 16px; border-radius: 10px;
+  font-size: 14px; font-weight: 600; text-align: center; display: none;
+}
+#status.success { background: #f0fff4; color: var(--green); border: 1.5px solid #9ae6b4; display: block; }
+#status.error { background: #fff5f5; color: var(--red); border: 1.5px solid #feb2b2; display: block; }
+#status.loading { background: var(--teal-lt); color: var(--teal2); border: 1.5px solid #b2d8d0; display: block; }
+.preview-link { display: block; text-align: center; margin-top: 14px; font-size: 13px; color: var(--teal); text-decoration: none; font-weight: 600; }
+.preview-link:hover { text-decoration: underline; }
+.pat-toggle { text-align: right; margin-top: 20px; }
+.pat-toggle button { background: none; border: none; font-size: 12px; color: #a0aec0; cursor: pointer; text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-title">아이디노 제주</div>
+    <div class="logo-sub">예 약 관 리</div>
+  </div>
+  <hr class="divider">
+  <div id="setup-section">
+    <div class="setup-notice">
+      <strong>⚙️ 처음 한 번만 설정하세요</strong>
+      GitHub Personal Access Token을 입력하면 이후엔 바로 수정할 수 있습니다.<br><br>
+      발급: GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → contents 권한 Write 허용
+    </div>
+    <div class="field">
+      <label>GitHub Token</label>
+      <input type="password" id="pat-input" placeholder="ghp_xxxxxxxxxxxx">
+    </div>
+    <button class="btn" onclick="savePat()">토큰 저장하기</button>
+  </div>
+  <div id="form-section">
+    <div class="field">
+      <label>예약자 이름</label>
+      <input type="text" id="name" placeholder="홍길동">
+    </div>
+    <div class="field">
+      <label>예약 일자</label>
+      <div class="date-row">
+        <input type="date" id="checkin" onchange="calcNights()">
+        <input type="date" id="checkout" onchange="calcNights()">
+      </div>
+      <div class="nights-badge" id="nights-display"></div>
+    </div>
+    <div class="field">
+      <label>호실</label>
+      <input type="text" id="room" placeholder="크레오 203호">
+    </div>
+    <button class="btn" id="submit-btn" onclick="updateReservation()">✓ 수정하기</button>
+    <div id="status"></div>
+    <a href="https://partyok-create.github.io/idino-guide/" target="_blank" class="preview-link">→ 안내 페이지 바로가기</a>
+    <div class="pat-toggle"><button onclick="showSetup()">토큰 재설정</button></div>
+  </div>
+</div>
+<script>
+const REPO='partyok-create/idino-guide', FILE='index.html', API='https://api.github.com';
+window.onload=function(){
+  const pat=localStorage.getItem('idino_pat');
+  if(!pat){showSetup();}else{showForm();loadCurrentValues(pat);}
+};
+function showSetup(){document.getElementById('setup-section').style.display='block';document.getElementById('form-section').style.display='none';}
+function showForm(){document.getElementById('setup-section').style.display='none';document.getElementById('form-section').style.display='block';}
+function savePat(){
+  const pat=document.getElementById('pat-input').value.trim();
+  if(!pat){alert('토큰을 입력해 주세요.');return;}
+  localStorage.setItem('idino_pat',pat);showForm();loadCurrentValues(pat);
+}
+async function loadCurrentValues(pat){
+  try{
+    const res=await fetch(API+'/repos/'+REPO+'/contents/'+FILE,{headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json'}});
+    if(!res.ok){if(res.status===401)showSetup();return;}
+    const data=await res.json();
+    const html=atob(data.content.replace(/\n/g,''));
+    const nm=html.match(/<div class="val">(.+?) 님<\/div>/);
+    if(nm)document.getElementById('name').value=nm[1];
+    const dm=html.match(/(\d{4})\. (\d{2})\. (\d{2}) ~ (\d{2})\. (\d{2})/);
+    if(dm){const[,y,m1,d1,m2,d2]=dm;document.getElementById('checkin').value=y+'-'+m1+'-'+d1;document.getElementById('checkout').value=y+'-'+m2+'-'+d2;calcNights();}
+    const rm=html.match(/<div class="val big">(.+?)<\/div>/);
+    if(rm)document.getElementById('room').value=rm[1];
+  }catch(e){}
+}
+function calcNights(){
+  const ci=document.getElementById('checkin').value,co=document.getElementById('checkout').value,el=document.getElementById('nights-display');
+  if(!ci||!co){el.textContent='';return;}
+  const diff=(new Date(co)-new Date(ci))/86400000;
+  el.textContent=diff<=0?'⚠ 체크아웃 날짜를 확인해 주세요':diff+'박';
+}
+function formatDate(ci,co){
+  const[y,m1,d1]=ci.split('-'),[,m2,d2]=co.split('-');
+  const nights=(new Date(co)-new Date(ci))/86400000;
+  return y+'. '+m1+'. '+d1+' ~ '+m2+'. '+d2+' ('+nights+'박)';
+}
+async function updateReservation(){
+  const pat=localStorage.getItem('idino_pat');
+  const name=document.getElementById('name').value.trim();
+  const checkin=document.getElementById('checkin').value,checkout=document.getElementById('checkout').value;
+  const room=document.getElementById('room').value.trim();
+  if(!name||!checkin||!checkout||!room){showStatus('모든 항목을 입력해 주세요.','error');return;}
+  const nights=(new Date(checkout)-new Date(checkin))/86400000;
+  if(nights<=0){showStatus('체크아웃 날짜를 확인해 주세요.','error');return;}
+  showStatus('수정 중...','loading');
+  document.getElementById('submit-btn').disabled=true;
+  try{
+    const getRes=await fetch(API+'/repos/'+REPO+'/contents/'+FILE,{headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json'}});
+    if(!getRes.ok)throw new Error('파일을 가져오지 못했습니다. 토큰을 확인해 주세요.');
+    const fileData=await getRes.json();
+    const sha=fileData.sha;
+    let html=atob(fileData.content.replace(/\n/g,''));
+    const newDate=formatDate(checkin,checkout);
+    html=html.replace(/(<div class="val">)[^<]+? 님(<\/div>)/,'$1'+name+' 님$2');
+    html=html.replace(/(<div class="val">)\d{4}\. \d{2}\. \d{2} ~ \d{2}\. \d{2} \(\d+박\)(<\/div>)/,'$1'+newDate+'$2');
+    html=html.replace(/(<div class="val big">)[^<]+(<\/div>)/,'$1'+room+'$2');
+    const newContent=btoa(unescape(encodeURIComponent(html)));
+    const putRes=await fetch(API+'/repos/'+REPO+'/contents/'+FILE,{
+      method:'PUT',
+      headers:{Authorization:'token '+pat,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:'예약 수정: '+name+' 님 '+newDate+' '+room,content:newContent,sha:sha})
+    });
+    if(!putRes.ok){const err=await putRes.json();throw new Error(err.message||'업데이트 실패');}
+    showStatus('✅ 수정 완료! 페이지에 반영되었습니다.','success');
+  }catch(e){showStatus('❌ '+e.message,'error');}
+  finally{document.getElementById('submit-btn').disabled=false;}
+}
+function showStatus(msg,type){const el=document.getElementById('status');el.textContent=msg;el.className=type;}
+</script>
+</body>
+  </html>
