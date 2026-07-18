@@ -49,13 +49,17 @@
   <div class="field">
     <label>Personal Access Token (repo 권한)</label>
     <div class="token-wrap">
-      <input type="password" id="token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+      <input type="password" id="token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" oninput="saveToken()">
       <button class="eye-btn" onclick="toggleToken()">👁</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:6px;">
+      <span id="token-status" style="display:none;font-size:12px;color:#3a8a7a;flex:1;padding-top:2px;"></span>
+      <button onclick="clearToken()" style="font-size:11px;color:#999;background:none;border:none;cursor:pointer;text-decoration:underline;">토큰 삭제</button>
     </div>
   </div>
   <div class="field">
     <label>업데이트할 페이지</label>
-    <select id="target-file" style="width:100%;padding:10px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:'Noto Sans KR',sans-serif;color:#2c2c2c;background:#fafafa;">
+    <select id="target-file" onchange="updateGuestLink()" style="width:100%;padding:10px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:15px;font-family:'Noto Sans KR',sans-serif;color:#2c2c2c;background:#fafafa;">
       <option value="index.html">메인 게스트 페이지 (index.html)</option>
       <option value="guest2.html">게스트 2팀 (guest2.html)</option>
       <option value="guest3.html">게스트 3팀 (guest3.html)</option>
@@ -92,7 +96,7 @@
 
 <button class="btn-push" id="push-btn" onclick="pushToGitHub()">📤 GitHub에 바로 올리기</button>
 <div class="status" id="status"></div>
-<a class="link-btn" href="https://partyok-create.github.io/idino-guide/" target="_blank">🔗 게스트 페이지 열기</a>
+<a class="link-btn" id="guest-link" href="https://partyok-create.github.io/idino-guide/" target="_blank">🔗 게스트 페이지 열기</a>
 
 <script>
 const OWNER = 'partyok-create';
@@ -102,6 +106,42 @@ const PATH  = document.getElementById('target-file')?.value || 'index.html';
 function toggleToken() {
   const inp = document.getElementById('token');
   inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function saveToken() {
+  const val = document.getElementById('token').value.trim();
+  if (val) { localStorage.setItem('idino_token', val); showTokenStatus('✅ 토큰 저장됨'); }
+}
+
+function loadToken() {
+  const saved = localStorage.getItem('idino_token');
+  if (saved) {
+    document.getElementById('token').value = saved;
+    showTokenStatus('🔐 저장된 토큰 불러옴');
+  }
+}
+
+function clearToken() {
+  localStorage.removeItem('idino_token');
+  document.getElementById('token').value = '';
+  showTokenStatus('🗑 토큰 삭제됨');
+}
+
+function showTokenStatus(msg) {
+  const el = document.getElementById('token-status');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 2000);
+}
+
+window.addEventListener('load', () => { loadToken(); updateGuestLink(); });
+
+function updateGuestLink() {
+  const file = document.getElementById('target-file').value;
+  const base = 'https://partyok-create.github.io/idino-guide/';
+  const url = file === 'index.html' ? base : base + file;
+  document.getElementById('guest-link').href = url;
+  document.getElementById('guest-link').textContent = '🔗 게스트 페이지 열기 (' + file + ')';
 }
 
 function calcNights(a, b) {
