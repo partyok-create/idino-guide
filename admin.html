@@ -155,7 +155,7 @@ function buildHTML(){
   const n=calcNights(ci,co);
   const dateStr=ci&&co&&n>0?fmtD(ci)+' ~ '+fmtD(co)+' ('+n+'박)':ci?fmtD(ci):'—';
   const nc=`.notice-box{background:#fff8e6;border:1.5px solid #e8a020;border-radius:12px;padding:16px 18px;margin-bottom:14px}.notice-ttl{font-size:12px;font-weight:700;color:#a06000;letter-spacing:1px;margin-bottom:10px}.notice-row{font-size:13.5px;line-height:1.75;color:var(--dark);padding:5px 0;border-bottom:1px solid rgba(232,160,32,.2)}.notice-row:last-child{border-bottom:none}`;
-  const nh=`<div class="notice-box"><div class="notice-ttl">⚠ 꼭 지켜주세요</div><div class="notice-row">🗑 쓰레기·재활용·음식물 → 1층 출입구 좌측 외부 휴지통 / <strong>퇴실 전 처리 필수</strong></div><div class="notice-row">🌙 라운지 이용시간 밤 <strong>10시까지</strong> · 사용 후 전체 소등</div><div class="notice-row">🚪 라운지 폴딩도어 <strong>절대 손대지 마세요</strong> · 출입문만 이용</div></div>`;
+  const nh=`<div class="notice-box"><div class="notice-ttl">⚠ 꼭 지켜주세요</div><div class="notice-row">🗑 쓰레기·재활용·음식물 → 1층 출입구 좌측 외부 휴지통 / <strong>퇴실 전 처리 필수</strong></div><div class="notice-row">🌙 라운지 이용시간 밤 <strong>10시까지</strong> · 사용 후 전체 소등</div><div class="notice-row">🚪 라운지 폴딩도어 <strong>절대 손대지 마세요</strong> · 출입문만 이용</div><div class="notice-row">📶 라운지 Wi-Fi : IDINO LOUNGE / 비밀번호 <strong>88888888</strong></div></div>`;
   return `<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>아이디노 제주 · 이용안내</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
